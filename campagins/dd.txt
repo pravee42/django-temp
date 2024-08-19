@@ -1,0 +1,138 @@
+from django.db import models
+
+class GoogleAnalyticsProperty(models.Model):
+    channel_type = models.CharField(max_length=255)
+    property_id = models.CharField(max_length=255)
+    property_details = models.CharField(max_length=255)
+    created_time = models.DateTimeField()
+    parent = models.CharField(max_length=255)
+    display_name = models.CharField(max_length=255)
+    industry_category = models.CharField(max_length=255)
+    time_zone = models.CharField(max_length=255)
+    currency_code = models.CharField(max_length=255)
+    service_level = models.CharField(max_length=255)
+    account_id = models.CharField(max_length=255)
+
+class UserMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    active_users = models.IntegerField()
+    new_users = models.IntegerField()
+    total_users = models.IntegerField()
+    crash_free_users_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    crash_affected_users = models.IntegerField()
+    user_engagement_duration = models.IntegerField()
+    user_stickiness = models.DecimalField(max_digits=5, decimal_places=2)
+    user_retention = models.DecimalField(max_digits=5, decimal_places=2)
+
+class SessionMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    sessions = models.IntegerField()
+    engaged_sessions = models.IntegerField()
+    sessions_per_user = models.DecimalField(max_digits=5, decimal_places=2)
+    average_session_duration = models.DecimalField(max_digits=10, decimal_places=2)
+    bounce_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    engagement_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    session_duration_per_user = models.DecimalField(max_digits=10, decimal_places=2)
+
+class EventMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    event_count = models.IntegerField()
+    event_value = models.DecimalField(max_digits=20, decimal_places=2)
+    event_count_per_user = models.DecimalField(max_digits=10, decimal_places=2)
+    events_per_session = models.DecimalField(max_digits=10, decimal_places=2)
+
+class EcommerceMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    purchase_revenue = models.DecimalField(max_digits=20, decimal_places=2)
+    transactions = models.IntegerField()
+    purchase_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    average_purchase_revenue = models.DecimalField(max_digits=20, decimal_places=2)
+    refund_amount = models.DecimalField(max_digits=20, decimal_places=2)
+    average_purchase_value = models.DecimalField(max_digits=20, decimal_places=2)
+    ecommerce_purchases = models.IntegerField()
+
+class EngagementMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    average_session_duration = models.DecimalField(max_digits=10, decimal_places=2)
+    bounce_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    engagement_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    screen_page_views = models.IntegerField()
+    engaged_sessions_per_user = models.DecimalField(max_digits=5, decimal_places=2)
+    user_engagement_duration = models.IntegerField()
+    screen_page_views_per_session = models.DecimalField(max_digits=5, decimal_places=2)
+
+class AdMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    ad_clicks = models.IntegerField()
+    ad_cost = models.DecimalField(max_digits=20, decimal_places=2)
+    ad_impressions = models.IntegerField()
+    ad_revenue = models.DecimalField(max_digits=20, decimal_places=2)
+    return_on_ad_spend = models.DecimalField(max_digits=5, decimal_places=2)
+    ad_cost_per_click = models.DecimalField(max_digits=10, decimal_places=2)
+    ad_click_through_rate = models.DecimalField(max_digits=5, decimal_places=2)
+
+class LifetimeValueMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    lifetime_value_revenue = models.DecimalField(max_digits=20, decimal_places=2)
+    lifetime_value_purchases = models.IntegerField()
+    average_lifetime_value = models.DecimalField(max_digits=20, decimal_places=2)
+    customer_lifetime_value = models.DecimalField(max_digits=20, decimal_places=2)
+
+class DemographicMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    country = models.CharField(max_length=255)
+    date = models.DateField()
+    device_category = models.CharField(max_length=255)
+    operating_system = models.CharField(max_length=255)
+    browser = models.CharField(max_length=255)
+    screen_resolution = models.CharField(max_length=255)
+    app_version = models.CharField(max_length=255)
+    platform = models.CharField(max_length=255)
+
+class TechnologyMetrics(models.Model):
+    deviceCategroy = models.CharField(max_length=255)
+    operatingSystem = models.CharField(max_length=255)
+    browser = models.CharField(max_length=255)
+    screenResolution = models.CharField(max_length=255)
+    appVersion = models.CharField(max_length=255)
+    platform = models.CharField(max_length=255)
+
+class GoalMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    goal_completions_all = models.IntegerField()
+    goal_conversion_rate_all = models.DecimalField(max_digits=5, decimal_places=2)
+    goal_value_all = models.DecimalField(max_digits=20, decimal_places=2)
+    goal_starts_all = models.IntegerField()
+
+class ContentMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    page_views = models.IntegerField()
+    unique_page_views = models.IntegerField()
+    time_on_page = models.DecimalField(max_digits=10, decimal_places=2)
+    entrances = models.IntegerField()
+    page_value = models.DecimalField(max_digits=20, decimal_places=2)
+    exit_rate = models.DecimalField(max_digits=5, decimal_places=2)
+
+class UTMParamsMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    date = models.DateField()
+    source = models.CharField(max_length=255)
+    medium = models.CharField(max_length=255)
+    campaign = models.CharField(max_length=255)
+    term = models.CharField(max_length=255)
+    content = models.CharField(max_length=255)
+    sessions = models.IntegerField()
+    users = models.IntegerField()
+    page_views = models.IntegerField()
+
+class RealtimeMetrics(models.Model):
+    property = models.ForeignKey(GoogleAnalyticsProperty, on_delete=models.CASCADE)
+    country = models.CharField(max_length=255)
+    active_users = models.IntegerField()
+    screen_page_views = models.IntegerField()
+
+
+class PovitMetrics(models.Model):
+    sessions = models.CharField(max_length=255)
+    date = models.DateField()
+    country = models.CharField(max_length=255)
